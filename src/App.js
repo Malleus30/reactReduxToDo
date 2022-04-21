@@ -1,25 +1,59 @@
-import logo from './logo.svg';
+
 import './App.css';
+import {ToDoFormR} from'./ui/todoRedux.js'
+import {ToDoR} from'./ui/todoTaskRedux.js'
+import {useSelector} from'react-redux';
+import {addTaskActionHigh, removeTaskActioHigh} from'./store/highList';
+import {addTaskActionLow, removeTaskActionLow} from'./store/lowList';
 
 function App() {
+
+  const highListTasks = useSelector(state => state.high.tasks);
+  const lowListTasks = useSelector(state => state.low.tasks);
+  console.log(highListTasks);
+  console.log(lowListTasks);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+         <div className="forma">
+            <div className="highPrior">
+
+                <p className="high">HIGH</p>   
+
+                <ToDoFormR taskAction={addTaskActionHigh}/>
+                {highListTasks.map((task) => {
+                    return (
+                      <ToDoR 
+                        taskText={task.text}
+                        key={task.id}
+                        task={task}
+                        taskAction={removeTaskActioHigh}
+                        />
+                          )
+                       })}
+            </div>
+
+         <div className="lowPrior">
+              
+         <p className="low">LOW</p>
+              
+                <ToDoFormR taskAction={addTaskActionLow}/>
+                {lowListTasks.map((task) => {
+                  return (
+                    <ToDoR 
+                    taskText={task.text}
+                    key={task.id}
+                    task={task}
+                    taskAction={removeTaskActionLow}
+                    />
+                  )
+                })}
+         </div>
+
+       </div>  
     </div>
-  );
+   )
 }
 
 export default App;
